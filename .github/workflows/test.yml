@@ -23,7 +23,7 @@ jobs:
             fs.writeFileSync(".idea/comment.txt", body);
       - run: |
           wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
-          ls -alF
+          ls -alFR
       - name: Set up Python
         uses: actions/setup-python@v2
       - name: 生成新评论
@@ -33,6 +33,7 @@ jobs:
           # mkdir .idea
           # echo "$COMMENT" > .idea/comment.txt
           echo "| $PLAYER_NAME | 14 | 10 | 0.00 | Thu Jan 01 1970 08:00:00 GMT+0800 (中国标准时间) |" >> .idea/comment.txt
+          cat .idea/comment.txt
           python high-score.py
           ls -alFR
       - name: 更新评论
