@@ -16,10 +16,10 @@ jobs:
             // console.log(process.env.BODY); // 这一行绝对不能去掉，否则运行报错，不知道为什么
             // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
             let body = "";
-            for (let i = 0; i < 1024 * (128 + 64); i++)
+            for (let i = 0; i < 1024 * 256; i++)
               body += "a";
-            for (let i = 0; i < 128; i++) {
-              for (let j = 0; j < 1024; j++)
+            for (let i = 0; i < 2; i++) {
+              for (let j = 0; j < 1; j++)
                 body += "a";
               console.log(body.length);
               await github.rest.issues.updateComment({
