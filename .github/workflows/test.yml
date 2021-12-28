@@ -22,7 +22,7 @@ jobs:
               body += "a";
             console.log(body.length);
 
-            const fs = reqiuire("fs");
+            const fs = require("fs");
             fs.writeFileSync("f.txt", body);
             return "0";
 
@@ -46,7 +46,7 @@ jobs:
         with:
           script: |
             // let body = process.env.BODY;
-            const fs = reqiuire("fs");
+            const fs = require("fs");
             let body = fs.readFileSync("f.txt");
             console.log(body.length);
             github.rest.issues.updateComment({
