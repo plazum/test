@@ -9,16 +9,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v5
-        id: get-comment
+      - name: Get Comment
+        uses: actions/github-script@v5
         with:
           script: |
-            return (await github.rest.issues.getComment({
+            const fs = require("fs");
+            const body = (await github.rest.issues.getComment({
               owner: context.repo.owner,
               repo: "find-keke",
               comment_id: 996055496
             })).data.body;
-          result-encoding: string
+            fs.writeFileSync(".idea/comment.txt", body);
       - run: |
           wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
           ls -alF
@@ -26,11 +27,10 @@ jobs:
         uses: actions/setup-python@v2
       - name: 生成新评论
         env:
-          COMMENT: ${{ steps.get-comment.outputs.result }}
           PLAYER_NAME: $$t"e's&#37;25t\\|`uname -a`
         run: |
-          mkdir .idea
-          echo "$COMMENT" > .idea/comment.txt
+          # mkdir .idea
+          # echo "$COMMENT" > .idea/comment.txt
           echo "| $PLAYER_NAME | 14 | 10 | 0.00 | Thu Jan 01 1970 08:00:00 GMT+0800 (中国标准时间) |" >> .idea/comment.txt
           python high-score.py
           ls -alFR
