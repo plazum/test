@@ -18,7 +18,7 @@ jobs:
             // console.log(process.env.BODY);
             // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
             let body = "";
-            for (let i = 0; i < 1024 * 256; i++)
+            for (let i = 0; i < 1024 * 128; i++)
               body += "a";
             console.log(body.length);
             return body;
