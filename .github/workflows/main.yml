@@ -55,4 +55,4 @@ jobs:
               comment_id: 1001859610,
               body: body
             });
-            console.log(body); // 这一行绝对不能去掉，否则运行报错，不知道为什么
+            // console.log(body); // 这一行绝对不能去掉，否则运行报错，不知道为什么
