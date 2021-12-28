@@ -17,7 +17,7 @@ jobs:
             // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
             let body = "";
             for (let i = 0; i < 130000; i++)
-              body += "a";
+              body += "字";
             console.log(body.length);
             github.rest.issues.updateComment({
               owner: context.repo.owner,
