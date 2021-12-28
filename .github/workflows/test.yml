@@ -9,54 +9,40 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: return body
-        uses: actions/github-script@v5
-        id: b
+      - uses: actions/github-script@v5
+        id: get-comment
         with:
-          result-encoding: string
           script: |
-            // console.log(process.env.BODY);
-            // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
-            let body = "";
-            for (let i = 0; i < 87380; i++)
-              body += "字";
-            console.log(body.length);
-
-            const fs = require("fs");
-            fs.writeFileSync("f.txt", body);
-            return "0";
-
-            for (let i = 0; i < 1; i++) {
-              for (let j = 0; j < 0; j++)
-                body += "a";
-              console.log(body.length);
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: 1001859610,
-                body: body
-              });
-              console.log(body.length + " OK");
-            }
-            // console.log(body);
+            return (await github.rest.issues.getComment({
+              owner: context.repo.owner,
+              repo: "find-keke",
+              comment_id: 996055496
+            })).data.body;
+          result-encoding: string
+      - run: |
+          wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
+          ls -alF
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: 生成新评论
+        env:
+          COMMENT: ${{ steps.get-comment.outputs.result }}
+          PLAYER_NAME: $$t"e's&#37;25t\\|`uname -a`
+        run: |
+          mkdir .idea
+          echo "$COMMENT" > .idea/comment.txt
+          echo "| $PLAYER_NAME | 14 | 10 | 0.00 | Thu Jan 01 1970 08:00:00 GMT+0800 (中国标准时间) |" >> .idea/comment.txt
+          python high-score.py
+          ls -alFR
       - name: 更新评论
         uses: actions/github-script@v5
-#         env:
-#           BODY: ${{ steps.b.outputs.result }}
         with:
           script: |
-            // let body = process.env.BODY;
             const fs = require("fs");
-            let body = fs.readFileSync("f.txt", "utf8");
-            for (let i = 0; i < 2; i++) {
-              for (let j = 0; j < 1; j++)
-                body += "字";
-              console.log(body.length);
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: 1001859610,
-                body: body
-              });
-              console.log(body.length + " OK");
-            }
+            let body = fs.readFileSync(".idea/processed.txt", "utf8");
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: 1001859610,
+              body: body
+            });
