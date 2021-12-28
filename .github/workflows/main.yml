@@ -9,15 +9,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: 更新评论
+      - name: return body
         uses: actions/github-script@v5
+        id: b
         with:
+          result-encoding: string
           script: |
-            // console.log(process.env.BODY); // 这一行绝对不能去掉，否则运行报错，不知道为什么
+            // console.log(process.env.BODY);
             // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
             let body = "";
-            for (let i = 0; i < 1024 * 256 + 2; i++)
+            for (let i = 0; i < 1024 * 256; i++)
               body += "a";
+            console.log(body.length);
+            return body;
             for (let i = 0; i < 1; i++) {
               for (let j = 0; j < 0; j++)
                 body += "a";
@@ -30,4 +34,18 @@ jobs:
               });
               console.log(body.length + " OK");
             }
-            // console.log(body); // 这一行绝对不能去掉，否则运行报错，不知道为什么
+            // console.log(body);
+      - name: 更新评论
+        uses: actions/github-script@v5
+        env:
+          BODY: ${{ steps.b.outputs.result }}
+        with:
+          script: |
+            let body = process.env.BODY;
+            console.log(body.length);
+            github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: 1001859610,
+              body: body
+            });
