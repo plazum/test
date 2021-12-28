@@ -16,13 +16,17 @@ jobs:
             // console.log(process.env.BODY); // 这一行绝对不能去掉，否则运行报错，不知道为什么
             // let body = process.env.BODY.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
             let body = "";
-            for (let i = 0; i < 65537; i++)
+            for (let i = 0; i < 65536; i++)
               body += "字";
-            console.log(body.length);
-            github.rest.issues.updateComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: 1001859610,
-              body: body
-            });
+            for (let i = 0; i < 64; i++) {
+              for (let j = 0; j < 1024; j++)
+                body += "字";
+              console.log(body.length);
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: 1001859610,
+                body: body
+              });
+            }
             // console.log(body); // 这一行绝对不能去掉，否则运行报错，不知道为什么
