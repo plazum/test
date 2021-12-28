@@ -47,7 +47,7 @@ jobs:
           script: |
             // let body = process.env.BODY;
             const fs = require("fs");
-            let body = fs.readFileSync("f.txt");
+            let body = fs.readFileSync("f.txt", "utf8");
             console.log(body.length);
             github.rest.issues.updateComment({
               owner: context.repo.owner,
