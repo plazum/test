@@ -38,25 +38,21 @@ jobs:
             // console.log(body);
       - name: 更新评论
         uses: actions/github-script@v5
-        env:
-          BODY: ${{ steps.b.outputs.result }}
+        # env:
+        #   BODY: ${{ steps.b.outputs.result }}
         with:
           script: |
-            const body = process.env.BODY;
-            console.log(body.length);
-            return;
+            // const body = process.env.BODY;
+            // console.log(body.length);
+            // return;
 
-            const fs = require("fs");
-            const body = fs.readFileSync("f.txt", "utf8");
-            for (let i = 0; i < 2; i++) {
-              for (let j = 0; j < 1; j++)
-                body += "字";
-              console.log(body.length);
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: 1001859610,
-                body: body
-              });
-              console.log(body.length + " OK");
-            }
+            // const fs = require("fs");
+            // const body = fs.readFileSync("f.txt", "utf8");
+            // console.log(body.length);
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: 1001859610,
+              body: ${{ steps.b.outputs.result }}
+            });
+            // console.log(body.length + " OK");
