@@ -16,7 +16,7 @@ jobs:
           result-encoding: string
           script: |
             let body = "";
-            for (let i = 0; i < 1024 * 128; i++)
+            for (let i = 0; i < 1024 * 128 - 1; i++)
               body += "a";
             console.log(body.length);
             // const fs = require("fs");
