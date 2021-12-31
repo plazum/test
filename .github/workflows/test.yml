@@ -16,8 +16,8 @@ jobs:
           result-encoding: string
           script: |
             let body = "";
-            for (let i = 0; i < 1024 * 128 - 11; i++)
-              body += "a";
+            for (let i = 0; i < 43686; i++)
+              body += "字";
             console.log(body.length);
             // const fs = require("fs");
             // fs.writeFileSync("f.txt", body);
