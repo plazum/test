@@ -1,6 +1,9 @@
 name: Test
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      a:
 
 permissions:
   issues: write
@@ -15,6 +18,7 @@ jobs:
         with:
           result-encoding: string
           script: |
+            return console.log(context);
             let body = "";
             for (let i = 0; i < 1024 * 256 - 1; i++)
               body += "a";
