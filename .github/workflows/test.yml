@@ -68,17 +68,20 @@ jobs:
           # echo "| $PLAYER_NAME | $ROWS | $COLS | $SCORE | $TIME |" >> .idea/comment.txt
           wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
           ls -alFR
-          python high-score.py
+          # python high-score.py
           ls -alFR
       - name: 更新评论
         uses: actions/github-script@v5
         with:
           script: |
             const fs = require("fs");
-            const body = fs.readFileSync(".idea/processed.txt", "utf8");
-            await github.rest.issues.updateComment({
+            let body = fs.readFileSync(".idea/comment.txt", "utf8").split("\n");
+            console.log(body);
+            body[0] = body[0].replaceAll("查看", "Look");
+            console.log(body);
+            /*await github.rest.issues.updateComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: 1001859610,
               body: body
-            });
+            });*/
