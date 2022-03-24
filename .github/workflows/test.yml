@@ -71,7 +71,7 @@ jobs:
           # python high-score.py
           ls -alFR
       - name: 更新评论
-        uses: actions/github-script@v5
+        uses: actions/github-script
         with:
           script: |
             const fs = require("fs");
