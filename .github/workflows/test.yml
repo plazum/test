@@ -55,7 +55,7 @@ jobs:
       #     wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
       #     ls -alFR
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
       - name: 生成新评论
         # env:
         #   PLAYER_NAME: ${{ github.event.inputs.player_name }}
@@ -77,7 +77,7 @@ jobs:
             const fs = require("fs");
             let body = fs.readFileSync(".idea/comment.txt", "utf8").split("\n");
             console.log(body);
-            body[0] = body[0].replaceAll("查看", "Look");
+            body[0] = body[0].replaceAll(/查看/, "Look");
             console.log(body);
             /*await github.rest.issues.updateComment({
               owner: context.repo.owner,
