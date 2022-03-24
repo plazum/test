@@ -77,7 +77,7 @@ jobs:
             const fs = require("fs");
             let body = fs.readFileSync(".idea/comment.txt", "utf8").split("\n");
             console.log(body);
-            body[0] = body[0].replace(/查看/g, "Look");
+            body[0] = body[0].replaceAll("查看", "Look");
             console.log(body);
             /*await github.rest.issues.updateComment({
               owner: context.repo.owner,
