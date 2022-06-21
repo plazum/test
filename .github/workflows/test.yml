@@ -55,7 +55,7 @@ jobs:
       #     wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
       #     ls -alFR
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
       - name: 生成新评论
         # env:
         #   PLAYER_NAME: ${{ github.event.inputs.player_name }}
