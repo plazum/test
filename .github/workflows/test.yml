@@ -35,6 +35,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            for (let i in github.rest.actions)
+              console.log(i);
+            return;
             const fs = require("fs");
             const body = (await github.rest.issues.getComment({
               owner: context.repo.owner,
@@ -56,6 +59,8 @@ jobs:
       #     ls -alFR
       - name: Set up Python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
       - name: 生成新评论
         # env:
         #   PLAYER_NAME: ${{ github.event.inputs.player_name }}
@@ -66,7 +71,7 @@ jobs:
         run: |
           # echo "| $PLAYER_NAME | $ROWS | $COLS | $SCORE | $TIME |"
           # echo "| $PLAYER_NAME | $ROWS | $COLS | $SCORE | $TIME |" >> .idea/comment.txt
-          wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
+          # wget https://raw.githubusercontent.com/plazum/find-keke/master/high-score.py
           ls -alFR
           # python high-score.py
           ls -alFR
@@ -74,12 +79,12 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const fs = require("fs");
+            /*const fs = require("fs");
             let body = fs.readFileSync(".idea/comment.txt", "utf8").split("\n");
             console.log(body);
             body[0] = body[0].replaceAll(/查看/, "Look");
             console.log(body);
-            /*await github.rest.issues.updateComment({
+            await github.rest.issues.updateComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: 1001859610,
