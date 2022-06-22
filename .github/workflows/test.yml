@@ -35,8 +35,14 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            for (let i in github.rest.actions)
-              console.log(i);
+            /*for (let i in github.rest.actions)
+              console.log(i);*/
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 1,
+              body: "<!-->"
+            });
             return;
             const fs = require("fs");
             const body = (await github.rest.issues.getComment({
