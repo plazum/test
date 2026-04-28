@@ -7,11 +7,6 @@ on:
         description: '文件下载链接'
         required: true
         type: string
-      artifact-name:
-        description: 'Artifact 名称（可选，留空则使用自动文件名）'
-        required: false
-        type: string
-        default: 'downloaded-file'
 
 jobs:
   download-and-upload:
@@ -21,26 +16,17 @@ jobs:
         run: mkdir -p download
 
       - name: Download file
+        id: download
         working-directory: download
         run: |
           # 使用 wget 跟随重定向并解析 Content-Disposition 文件名
-          wget --content-disposition "${{ inputs.url }}" 2>&1 | tee download.log
+          wget --content-disposition "${{ inputs.url }}"
           # 输出下载的文件名，方便调试
           echo "Downloaded file: $(ls -1)"
-
-      - name: Set artifact name
-        id: artifact
-        run: |
-          # 如果用户没有指定 artifact 名称，则使用下载目录中的文件名
-          if [ -z "${{ inputs.artifact-name }}" ]; then
-            FILE_NAME=$(ls -1 download | head -1)
-            echo "name=${FILE_NAME%.*}" >> $GITHUB_OUTPUT
-          else
-            echo "name=${{ inputs.artifact-name }}" >> $GITHUB_OUTPUT
-          fi
+          echo "filename=$(ls -1)" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: ${{ steps.artifact.outputs.name }}
-          path: download/*
+          path: download/${{ steps.download.outputs.filename }}
+          archive: false
